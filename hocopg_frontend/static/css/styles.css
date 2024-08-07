@@ -1,0 +1,1270 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column; /* make its content in vertical layout */
+    justify-content: flex-start;  /* make the page scroll downward */
+    align-items: center;
+/*     height: 100vh; */
+}
+
+/* Header */
+.header {
+    width: 100%;
+    background-color: #f6f6f6;
+    color: #333;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.angle-bracket {
+    color: #999999;
+}
+
+.title-part {
+    margin: 0;
+    padding: 0;
+    letter-spacing: 2px; /* Adjust this value to reduce spacing */
+}
+
+.title-part.orange {
+    color: #E96A39;
+}
+
+.title-part.grey {
+    color: #4D4D4D;
+}
+
+.nav a {
+    margin-right: 20px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.search-bar {
+    flex-grow: 1;
+    max-width: 400px;
+    margin: 0 20px;
+    position: relative;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 5px 10px 5px 30px; /* Add padding for the icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-bar .fa-search {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info span {
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+/* Main body */
+.container {
+    position: relative;
+    width: 95%;
+    box-sizing: border-box;   
+    margin-top: 50px; /* Add margin to push content below the header */
+    flex-grow: 1; /* Allow the container to grow */
+    /* overflow: auto; */
+    /* height: 100vh; */
+}
+
+/* Database info */
+.database-info {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    position: relative; /* add this to position tooltip */
+}
+
+.database-info .fa-database {
+    margin-right: 10px;
+    color: #333;
+}
+
+#db-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0e0e0; 
+    width: 25px; /* Ensures the background is square */
+    height: 25px; /* Ensures the background is square */
+    box-sizing: border-box; /* Ensures padding is included in width/height */
+    border-radius: 5px; /* Slightly rounded corners */
+}
+
+.database-name {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 20px;
+}
+.database-name:hover {
+    background-color: #f0f0f0;
+    border: 1px solid rgba(204, 204, 204, 0.5); /* Softer border color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1); /* Add slight blur effect */
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.comma {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.table-name {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.data-processing {
+    padding: 3px 10px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    text-decoration: none; /* remove the underline below words */
+}
+
+.data-processing i {
+    margin-left: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.data-processing:hover {
+    background-color: #f0f0f0;
+}
+
+/* Tooltip styles */
+.tooltip {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 350px;
+    background-color: #fff;
+    border: 1px solid rgba(204, 204, 204, 0.5); /* Softer border color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1); /* Add slight blur effect */
+    padding: 10px;
+    z-index: 2000;
+/*     margin-top: 10px; */
+    border-radius: 2px;
+    opacity: 0;
+    visibility: hidden; /* Initially hidden */
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; /* Smooth transition */
+}
+
+.tooltip.show {
+    display: block; /* Ensure it takes space */
+    opacity: 1;
+    visibility: visible; /* Make it visible */
+}
+
+.database-info:hover .tooltip {
+    display: block; /* Show tooltip on hover */
+}
+
+.tooltip-header {
+    display: flex;
+    align-items: left;
+    margin-bottom: 10px;
+}
+
+.tooltip-title i {
+    margin-left: 5px;
+}
+
+.tooltip-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 20px;
+    font-size: 14px;
+}
+
+.tooltip-content div {
+    margin-bottom: 5px;
+}
+
+
+.tooltip-content div strong {
+    margin-right: 10px;
+}
+
+.tooltip-content .copy-icon {
+    cursor: pointer;
+    color: #007bff;
+}
+
+
+.tooltip p {
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+.tooltip a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.tooltip a:hover {
+    text-decoration: underline;
+}
+
+.badge {
+    background-color: #e0e0e0;
+    border-radius: 14px;
+    padding: 2px 8px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.grey-text {
+    color: grey;
+}
+
+.grey-text a {
+    color: #007bff; /* Ensure the link remains the default color */
+}
+
+.bordered {
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 5px; /* Optional: Adds some space between the text and the line */
+    margin-bottom: 10px; /* Optional: Adds some space below the line */
+}
+
+/* db list */
+
+
+/* Tooltip styles */
+.db-list-wrapper {
+    padding: 3px;
+}
+.db-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.db-item-wrapper {
+    margin-bottom: 10px; /* Space between database items */
+}
+.db-item {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+/*     justify-content: space-between; */
+/*     align-items: center; */
+    transition: background-color 0.3s ease;
+    position: relative;  /* Ensure absolute positioning of toggle-icon */
+}
+.db-item:hover {
+    background-color: #f9f9f9;
+}
+.db-item .toggle-icon {
+    transition: transform 0.3s ease;
+    right: 10px; /* Adjust as necessary */
+    position: absolute;
+}
+.db-item.expanded .toggle-icon {
+    transform: rotate(90deg);
+}
+.db-item .db-icon {
+    margin-left: none;
+}
+.db-item.expanded .table-list {
+    display: block;
+}
+
+.table-list {
+/*     display: none; */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 10px;
+    padding-left: 20px;
+    display: none;
+}
+
+.table-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #fff;
+    border: 1px solid rgba(224, 224, 224, 0.6); /* Softer border color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1); /* Add slight blur effect */
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.table-item:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+.table-item .table-icon {
+    margin-right: 10px;
+    color: #4CAF50;
+    font-size: 1.2em;
+}
+
+.table-item .view-icon {
+    margin-right: 10px;
+    color: #4CAF50;
+    font-size: 1.2em;
+}
+
+/* Input sql */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px 10px 10px 30px; /* Extra padding for line number */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.line-number {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #999;
+    z-index: 2; /* Ensures the line number is on top */
+}
+
+#run-button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-left: none; /* Remove the border between the input and button */
+    border-radius: 0 4px 4px 0; /* Rounded corners for the right side only */
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+#run-button:hover {
+    background-color: #0056b3;
+}
+
+.recommendations {
+    position: relative;
+/*     top: 30px; */
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none !important; /* Ensure it overrides any other display settings */
+}
+
+.section {
+    padding: 10px;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.recommendation {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.recommendation:hover {
+    background-color: #f1f1f1;
+}
+
+/* Load spinner */
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Initially hidden */
+    z-index: 9999;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* message container */
+.message-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border: 1px solid #ffcc00;
+    background-color: #fff3cd;
+    color: #856404;
+    border-radius: 4px;
+    z-index: 1000000;
+    display: none; /* Initially hidden */
+}
+
+.message-container.show {
+    display: block;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 9998;
+    display: none; /* Initially hidden */
+    pointer-events: none; /* Prevents interaction */
+}
+
+.overlay.show {
+    display: block;
+}
+
+/* Main_content.css */
+.data-container {
+    position: relative;
+    width: 95%;
+    box-sizing: border-box;   
+    margin-top: 10px; /* Add margin to push content below the header */
+    flex-grow: 1; /* Allow the container to grow */
+    border: 1px solid rgba(224, 224, 224, 0.6);
+}
+
+/* tabs for page switching */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    margin: 0; /* Remove margin between tabs and sidebar */
+}
+.tab-button {
+    background-color: #f8f9fa;
+    border: none; 
+    padding: 6px 10px;
+    cursor: pointer;
+    /* margin-right: 5px; */
+    transition: color 0.3s;
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.tab-button:hover {
+    color: #0468BF;
+}
+.tab-button.active {
+    color: #0468BF;
+    border-bottom: 3px solid #0468BF;
+}
+
+.display {
+    display: flex;
+    padding: none;
+/*     height: calc(100vh - 50px); */
+    flex-direction: row;
+}
+
+.sidebar {
+    width: 12vw; /* 15* of the width */
+    background-color: #f6f6f6;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: none;
+    position: relative;
+}
+.attribute-search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis at the end */
+}
+#attribute-searchField {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+.icon-button {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background-color: #f6f6f6;
+    color: #6c757d;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-button:hover {
+            background-color: #e0e0e0;
+}
+
+
+.toggle-field-list-wrapper {
+    padding: 3px;
+}
+.toggle-field-item-wrapper {
+    margin-bottom: 10px; /* Space between database items */
+}
+
+.toggle-field-header {
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    transition: background-color 0.3s ease;
+    position: relative;  /* Ensure absolute positioning of toggle-icon */
+    align-items: center;
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis at the end */
+}
+.toggle-field-header:hover {
+    color: #0468BF;
+}
+.toggle-field-header .toggle-icon {
+    transition: transform 0.3s ease;
+    left: 5px; /* Adjust as necessary */
+    position: absolute;
+    font-size: 0.7em; /* Make the icon smaller */
+}
+.toggle-field-header.expanded .toggle-icon {
+    transform: rotate(90deg);
+/*     top: 40%; */
+}
+.toggle-field-header .toggle-title {
+    margin-left: 14px;
+    font-size: 12x; /* Make the icon smaller */
+}
+
+.toggle-field-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.field-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 10px;
+    padding-left: 20px;
+    display: none;
+}
+
+#field-item-comp {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #fff;
+    border: 1px solid rgba(224, 224, 224, 0.6); /* Softer border color */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.03); /* Add slight blur effect */
+    border-radius: 2px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 14px;
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis at the end */
+    justify-content: space-between;
+    flex-direction: row;
+}
+#field-item-comp .red {
+    background-color: #f8d0ca; /* Light blue background */
+    color: #e26866; /* Dark blue text */
+}
+.field-item-inner-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+#field-item-comp:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.field-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #fff;
+    border: 1px solid rgba(224, 224, 224, 0.6); /* Softer border color */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.03); /* Add slight blur effect */
+    border-radius: 2px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 14px;
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis at the end */
+    /* justify-content: space-between; */
+}
+
+.field-item:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.field-item .table-icon {
+    margin-right: 10px;
+    color: #4CAF50;
+    font-size: 1.2em;
+}
+.field-item .view-icon {
+    margin-right: 10px;
+    color: #50d8c6;
+    font-size: 1.2em;
+}
+
+.field-item .icon-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Add space between the icons */
+}
+.field-item .icon-square {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 14px;
+    margin-right: 10px;
+}
+.field-item .symbol {
+    color: inherit; /* Inherit the text color from the parent */
+    font-size: 14px; /* Adjust font size if necessary */
+}
+.field-item .green {
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+}
+.field-item .blue {
+    background-color: #d1ecf1; /* Light blue background */
+    color: #0c5460; /* Dark blue text */
+}
+.field-item .grey {
+    background-color: #e0e0e0; /* Light grey background */
+    color: #9e9e9e; /* Grey text color */
+}
+.field-item  .comp-algo-field {
+    background-color: #d4edda; /* Light green background */
+    color: #0c5460; /* Dark blue text */
+}
+
+.empty-text {
+    color: grey; /* Ensure the link remains the default color */
+    display: flex;
+    align-items: left;
+    padding: 5px;
+    margin: 5px 10px;
+    font-size: 14px;
+/*     transition: border-color 0.3s ease; */
+}
+
+/* make the sidebar resizable */
+
+.resize-handle {
+    width: 1px;
+/*     background-color: #0468BF; */
+    cursor: ew-resize;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+/*     transition: background-color 0.3s ease; */
+}
+.sidebar.resizing .resize-handle {
+    background-color: #0096c7;
+}
+.sidebar.resizing {
+    border-right: 1px solid blue;
+}
+
+
+/* display area */
+.display-container {
+    width: 100%;
+    height: 80vh;
+    background-color: #f7f7f7;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.toolbar {
+    width: 100%;
+    background-color: #f6f6f6;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* This will push the .toolbar-left to the left and .toolbar-right to the right */
+    z-index: 1000;
+    padding-bottom: 7px;
+    font-size: 15px;
+/*     flex-shrink: 0; */
+}
+#graph-tool-summary {
+    width: 100%;
+    background-color: #f6f6f6;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* This will push the .toolbar-left to the left and .toolbar-right to the right */
+    z-index: 1000;
+    padding-bottom: 7px;
+    font-size: 15px;
+    margin-top: 10px;
+}
+.toolbar-left {
+    display: flex;
+    align-items: center;
+}
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.toolbar .button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.toolbar-title {
+    /* background-color: rgb(245, 203, 161); */
+    background-color: #ff9900;
+    color: #fff;
+    border-radius: 3px;
+    padding: 2px 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.toolbar-title1 {
+    background-color: rgb(189, 227, 253);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 10px;
+    font-weight: bolder;
+    font-size: 15px;
+}
+.toolbar-item {
+    margin: 0 10px;
+}
+.toolbar-item1 {
+    margin: 5px 5px 5px 20px;
+    padding: 10px;
+}
+.toolbar-name {
+    margin: 0 3px;
+    /* font-weight: bold; */
+}
+.preview-title {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.data-table-container {
+    /* min-width: 85vw; */
+    /* height: 100vh; */
+    /* min-height: 85vh; */
+    width: 100%;
+    /* height: 100vh; */
+/*      Adjust based on your needs  */
+    margin-bottom: 15px;
+    overflow: auto; /* Enable both horizontal and vertical scroll */
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 14px;
+    table-layout: auto; /* Allow table to adjust to content size */
+    overflow: auto;
+}
+
+
+.data-table th, .data-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    min-width: 100px; /* Set minimum width for table cells */
+    word-wrap: break-word; /* Ensure content wraps within cells */
+    cursor: pointer; /* Indicates the column can be interacted with */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1;
+    max-width: 150px;
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
+}
+
+/* Truncated text with ellipsis */
+.data-table td.collapsible {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer; /* Indicates the text is clickable */
+}
+
+/* Expanded text with normal wrap */
+.data-table td.collapsible.expanded {
+    white-space: normal;
+    overflow: visible;
+    max-width: none;
+}
+/* .data-table th {
+    background-color: #f2f2f2;
+} */
+
+/* Styles for highlighted cells */
+.highlight {
+    background-color: lightblue;
+    color: #333;  /* Darker text for better readability */
+    font-weight: bold;  /* Make text stand out */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);  /* Subtle shadow for a floating effect */
+    z-index: 2;  /* Ensure highlighted cells are above others */
+  }
+.highlight-dark {
+    background-color: yellowgreen;
+    color: #333;  /* Darker text for better readability */
+    font-weight: bold;  /* Make text stand out */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);  /* Subtle shadow for a floating effect */
+    z-index: 2;  /* Ensure highlighted cells are above others */
+}
+.pagination {
+/*     margin: 20px 0; */
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 5px;
+}
+.pagination span, .pagination select, .pagination input, .pagination button {
+    margin: 0 2px;
+}
+
+.page-button, #goto-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.page-button:hover, #goto-button:hover {
+    background-color: #ddd;
+}
+
+#goto-page {
+    width: 50px;
+}
+
+/* graph display page */
+.graph-container {
+    width: 100%;
+    background-color: #f7f7f7;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: none;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+}
+.preview-container {
+    width: 99%;
+    /* height: 50%; */
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    align: center;
+}
+
+.preview-container-wrapper {
+    width: 88vw;
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+}
+.preview-container {
+    width: 99%;
+    /* height: 50%; */
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    align: center;
+}
+
+.page-flip {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+/*     background-color: #f2f2f2; */
+    border-top: 1px solid #ddd;
+    font-size: 15px;
+}
+.page-flip button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.preview-data-table-container {
+/*     min-width: 85vw; */
+    height: 40vh;
+    max-height: 50vh;
+    /* height: 10vh;
+    max-height: 10vh; */
+/*      Adjust based on your needs  */
+    overflow: auto; /* Enable both horizontal and vertical scroll */
+    box-shadow: none;
+}
+.preview-data-table {
+    width: 100%;
+/*     border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
+/*     border: none; */
+    font-size: 14px;
+    table-layout: auto; /* Allow table to adjust to content size */
+    padding: 5px;
+}
+.preview-data-table th, .preview-data-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    min-width: 20px; /* Set minimum width for table cells */
+}
+.preview-data-table th {
+    background-color: #f2f2f2;
+}
+
+.chart-container {
+    width: 99%;
+    max-width: 1200px;
+    border-radius: 8px;
+/*     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
+    padding: 20px;
+    box-sizing: border-box;
+}
+.charts {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.chart {
+    width: 30%;
+    height: 30%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    align-items: center;
+    justify-content: center;
+}
+.chart canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+.chart.highlighted {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.chart-container .toggle-icon {
+    transition: transform 0.3s ease;
+    position: absolute;
+    transform: rotate(90deg); /* Pointing downward initially */
+}
+.chart-container  .toggle-icon.up {
+    transform: rotate(180deg);
+}
+
+.icon-section .toggle-icon {
+    transition: transform 0.3s ease;
+    position: absolute;
+    transform: rotate(90deg); /* Pointing downward initially */
+}
+.icon-section  .toggle-icon.up {
+    transform: rotate(180deg);
+}
+
+
+.gallary-container-wrapper {
+    width: 15vw;
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+    /* border-left: 1px solid #333; */
+}
+
+.chart-icon-container {
+    width: 90%;
+    margin: 10px auto;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab {
+    flex: 1;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.tab.active {
+    background-color: rgb(189, 227, 253);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* margin: 0 10px; */
+    font-weight: bolder;
+    /* background-color: #fff; */
+    border-bottom: 2px solid #007bff;
+    font-size: 15px;
+}
+.icon-content{
+    width: 99%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+}
+.icon {
+    width: 45px;
+    height: 45px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;  /* Add position relative */
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, border-color 0.1s ease-in-out;
+}
+
+.icon img {
+    width: 90%;
+    height: 90%;
+}
+.icon.pro::after {
+    content: "Pro";
+    font-size: 12px;
+    color: #fff;
+    background-color: #ff9900;
+    border-radius: 3px;
+    padding: 2px 4px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Add hover effect */
+.icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Add active effect (when clicking) */
+.icon:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.icon.highlighted {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.grey path {
+    fill: grey !important;
+}
+.colorful path:nth-child(1),
+.colorful path:nth-child(3),
+.colorful path:nth-child(5) {
+    fill: #007bff !important;
+}
+
+.colorful path:nth-child(2),
+.colorful path:nth-child(4) {
+    fill: #FFAD40 !important;
+}
+
+.preview-chart-wrapper {
+    width: 97%;
+    background-color: #f7f7f7;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+.row-chart-container {
+    height: 40vh;
+    max-height: 40vh;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    box-shadow: none;
+}
+.chart-display {
+    width: 100%;
+    /* height: 30%; */
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.query-container {
+    /* margin: auto; */
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+.query-label {
+    color: #373535;
+    border-radius: 3px;
+    padding: 2px 4px;
+    margin: 0 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.query-box {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 0px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap; /* To preserve spaces and line breaks */
+    margin: 10px;
+    text-align: left; /* Ensure left alignment */
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#word-cloud-container {
+    width: 100%;
+    height: 500px;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,376 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Box with Recommendations</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<!--  For icon  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- For charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.34.0.min.js" charset="utf-8"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+    
+</head>
+<body>
+  
+    <header class="header">
+        <div class="logo">
+            <span class="angle-bracket">&lt;</span>
+            <span class="title-part orange">H</span>
+            <span class="title-part orange">o</span>
+            <span class="title-part orange">c</span>
+            <span class="title-part orange">o</span>
+            <span class="title-part">P</span>
+            <span class="title-part">G</span>
+            <span class="angle-bracket">&gt;</span>
+        </div>
+        <nav class="nav">
+            <a href="#">Work Station</a>
+        </nav>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="header-search-input" placeholder="">
+        </div>
+        <div class="user-info">
+            <span>Notice</span>
+            <span>Help</span>
+            <span>Support</span>
+            <span>User</span>
+        </div>
+    </header>
+  
+    <div class="container">
+        <!--    database information      -->
+        <div class="database-info">
+            <i class="fas fa-database" id="db-icon"></i>
+          <span id="db-name" class="database-name"> test </span> 
+          <span class="comma"> :: </span> 
+          <span class="table-name"> <i class="fas fa-table table-icon"></i> tb-log</span>
+            <a class="data-processing" href="#"> Data Preprocess <i class="fas fa-external-link-alt"></i></a>
+            <div class="tooltip">
+                <div class="tooltip-header">
+                    <span class="badge">Standard</span>
+                    <span class="tooltip-title"> test <i class="fas fa-copy copy-icon" data-copy="log-db"></i></span>
+                </div>
+                <p class="grey-text bordered">支持一站式压缩文本直接检索能力 <a href="#">了解更多</a></p>
+                <div class="tooltip-content">
+                    <div><strong>分区 (Shard)：</strong> 2</div>
+                    <div><strong>记录外网IP：</strong> 已开启</div>
+                    <div><strong>WebTracking：</strong> 已关闭</div>
+                    <div><strong>自动分裂分区：</strong> 已开启</div>
+                    <div><strong>永久保存：</strong> 已关闭</div>
+                    <div><strong>最大分裂数：</strong> 64</div>
+                    <div><strong>数据保存时间：</strong> 180天</div>
+                </div>
+            </div>
+            <div class="tooltip" id="db-tooltip">
+                <div class="tooltip-header bordered">
+                    <span class="badge"> Database </span>
+                    <span class="badge">Table</span>
+                    <span class="tooltip-title"> Data Selection </span> 
+                </div>
+                <div class="db-list-wrapper">
+                  <ul class="db-list"></ul>
+                </div>
+            </div>
+        </div>
+        <!--   SQL input       -->
+        <div class="input-wrapper">
+              <span class="line-number">1</span>
+              <input type="text" id="search-input">
+              <button id="run-button">Run</button>
+        </div>
+        <div id="recommendations" class="recommendations hidden">
+            <div class="section">
+                <div class="section-title">Recommendation</div>
+                <div class="recommendation">SELECT * FROM dna_seq;</div>
+                <div class="recommendation">SELECT * FROM persons;</div>
+                <div class="recommendation">SELECT * FROM compress_scheme_comparison('dna_seq', 'exp_log', 10);</div>
+                <div class="recommendation">SELECT * FROM create_compression_table('dna_seq', 'exp_log', 10);</div>
+                <div class="recommendation">SELECT * FROM comp_dna_seq_exp_log;</div>
+                <!-- Add more recommendations as needed -->
+            </div>
+            <div class="section">
+                <div class="section-title">History</div>
+                <div class="recommendation">SELECT * FROM compress_scheme_comparison('dna_seq', 'exp_log', 10);</div>
+                <!-- Add more history items as needed -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="data-container">
+          <!-- tabs for switching pages -->
+          <div class="tabs bordered">
+                <button class="tab-button active"  id="data-tab"> Query Result</button>
+                <button class="tab-button"  id="chart-tab">Scheme Comparison</button>
+                <button class="tab-button"  id="sum-tab">History</button>
+         </div>
+      
+         <div class="display">
+                <!-- page-origin   -->
+                <!--   Sidebar   -->
+                <div class="sidebar">
+                  <div class="attribute-search-bar">
+                    <input type="text" placeholder="Search field name" id="attribute-searchField"> 
+                   <button class="icon-button" id="attr-searchButton"><i class="fas fa-search"></i> </button>
+                 </div>
+                 
+                 <!-- Field list -->
+                 <div class="toggle-field-list-wrapper" id="field-wrapper">
+                      <div class="toggle-field-header" data-target="show-field"> 
+                        <i class="fas fa-chevron-right toggle-icon"></i> 
+                        <div class="toggle-title"> Table Fields </div>
+                      </div>
+                      <ul class="toggle-field-list" id="show-field"> </ul>
+                     
+                      <div class="toggle-field-header" data-target="index-field">
+                        <i class="fas fa-chevron-right toggle-icon"></i> 
+                        <div class="toggle-title"> TEXT Fields </div>
+                      </div>
+                        <ul class="toggle-field-list" id="index-field"> </ul>
+                     
+                      <div class="toggle-field-header" data-target="other-field">
+                        <i class="fas fa-chevron-right toggle-icon"></i> 
+                        <div class="toggle-title"> Compressed Fields </div>
+                      </div>
+                      <ul class="toggle-field-list" id="other-field"> </ul>
+                   </div>
+                 
+                 <div class="resize-handle"></div>
+             </div>
+           
+                <!--   Display area -->
+                <div class="display-container" id="page-org">
+                    <div class="toolbar" id="org-tool">
+                        <div class="toolbar-left">
+                          <button class="button">
+                            <i class="fas fa-bars"></i> 
+                          </button>
+                          <span class="toolbar-item" >Table</span>
+                          <!-- <span class="toolbar-item">原始</span> -->
+                          <button class="button">
+                            <i class="fas fa-download"></i>
+                          </button>
+                          <button class="button">
+                            <i class="fas fa-cog"></i>
+                          </button>
+                          <button class="button">
+                            <i class="fas fa-filter"></i>
+                          </button>
+                        </div>
+                        <div class="pagination">
+                            <span> Display limit: </span>
+                            <select id="rows-per-page">
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <input type="number" id="goto-page" min="1">
+                            <button id="goto-button">Confirm</button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead id="table-head">
+                                <!-- Header will be dynamically generated here -->
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Rows will be dynamically generated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page-flip">
+                        <span id="total-number"> Total: 7 </span>
+                        <div class="flip-nav">
+                            <button class="page-button" id="prev-page">&lt;</button>
+                            <span id="page-number">1</span>
+                            <span>/</span> 
+                            <span id="total-page-number">1</span>
+                            <button class="page-button" id="next-page">&gt;</button>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- page-graph  -->
+                <div class="graph-container hidden">
+                    <div class="preview-container-wrapper" id="preview-container-wrapper">
+                        <div class="main-display-area" id="main-display-area">
+                      
+                            <div class="toolbar" id="graph-tool">
+                                <div class="toolbar-left">
+                                    <span class="toolbar-title">Result Preview </span> 
+                                    <span class="toolbar-name"> Compressed size of each tuple in table <span class="preview-title" id="preview-table"> </span> column <span class="preview-title"  id="preview-col"> </span> </span>
+                                </div>
+                                <div class="toolbar-right">
+                                    <div class="pagination">
+                                        <span>Display Limit: </span>
+                                        <select id="preview-rows-per-page">
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                    <button class="page-button">
+                                            Download Table</i>
+                                    </button>
+                                    <button class="page-button">
+                                            <i class="fas fa-cog"></i>
+                                    </button>
+                                    <button class="page-button">
+                                            <i class="fas fa-filter"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="preview-container">
+                                    <div class="preview-data-table-container" id="preview-data-table-container">
+                                        <table class="preview-data-table" id="preview-data-table">
+                                            <thead id="preview-table-head">
+                                                <!-- Header will be dynamically generated here -->
+                                            </thead>
+                                            <tbody id="preview-table-body">
+                                                <!-- Rows will be dynamically generated here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="page-flip">
+                                        <span id="preview-total"> Total: 5 </span>
+                                        <div class="flip-nav">
+                                        <button class="page-button" id="flip-prev-page">&lt;</button>
+                                            <span id="flip-page-number">1</span> 
+                                            <span>/</span> 
+                                            <span id="flip-total-page-number">1</span>
+                                                <!--  dynamically generate page number  -->
+                                            <button class="page-button" id="flip-next-page">&gt;</button>
+                                            </div>
+                                    </div>
+                            </div>
+
+                        </div>
+
+                        <div class="toolbar" id="graph-tool-summary">
+                            <div class="toolbar-left">
+                            <span class="toolbar-title"> Size-Summary </span> 
+                            <span class="toolbar-name"> Compressed size of the whole column in table <span class="preview-title" id="summary-table"> </span> column <span class="preview-title"  id="summary-col"> </span> </span>
+                            </div>
+                            <div class="toolbar-right">
+                                <button class="page-button">
+                                    Download Table</i>
+                                </button>
+                                <button class="page-button">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="page-button">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="preview-container">
+                            <div class="preview-summary-table-container">
+                                <table class="preview-data-table" id="preview-summary-table">
+                                    <thead id="summary-table-head">
+                                        <!-- Header will be dynamically generated here -->
+                                    </thead>
+                                    <tbody id="summary-table-body">
+                                        <!-- Rows will be dynamically generated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            
+                        <div class="toolbar" id="graph-tool-summary">
+                            <div class="toolbar-left">
+                            <span class="toolbar-title"> Time-Summary </span> 
+                            <span class="toolbar-name"> Compression Time of the whole column in table <span class="preview-title" id="summary-time-table"> </span> column <span class="preview-title"  id="summary-time-col"> </span> </span>
+                            </div>
+                            <div class="toolbar-right">
+                                <button class="page-button">
+                                    Download Table</i>
+                                </button>
+                                <button class="page-button">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button class="page-button">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="preview-container">
+                            <div class="preview-summary-table-container">
+                                <table class="preview-data-table" id="preview-summary-table">
+                                    <thead id="summary-time-table-head">
+                                        <!-- Header will be dynamically generated here -->
+                                    </thead>
+                                    <tbody id="summary-time-table-body">
+                                        <!-- Rows will be dynamically generated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                                <span class="toolbar-item" id="toggle-charts">Recommended Charts</span> 
+                                <i class="fas fa-chevron-right toggle-icon"></i>
+                                <div class="charts" id="charts-section">
+                                    <div class="chart" id="bar-chart-icon">
+                                        <canvas id="barChart"></canvas>
+                                    </div>
+                                    <div class="chart" id="pie-chart-icon">
+                                        <canvas id="pieChart"></canvas>
+                                    </div>
+                                    <div class="chart" id="radar-chart-icon">
+                                        <canvas id="radarChart"></canvas>
+                                    </div>
+                                </div>
+                        </div>
+                    </div> 
+
+                    <div class="gallary-container-wrapper">
+                        <div class="chart-icon-container">
+                            <div class="tabs">
+                                <button class="tab active"> Preview Gallary </button>
+                            </div>
+                            <div class="icon-content">
+                                <div class="icon-section">
+                                    <!-- <span class="toolbar-item1" id="chart-type-toggle"> Chart type</span> 
+                                    <i class="fas fa-chevron-down toggle-icon" id="icon-arrow"></i> -->
+                                    <div class="icons" id="chart-icons">
+                                        <img id="table-icon" class="icon highlighted" src="{% static 'images/table.svg' %}" alt="Table" title="Table" ></img>
+                                        <img id="bar-chart-icon" class="icon" src="{% static 'images/bar-chart.svg' %}" alt="Bar Chart" title="Bar Chart" ></img>
+                                        <img id="line-chart-icon" class="icon" src="{% static 'images/line-chart.svg' %}" alt="Line Chart" title="Line Chart" ></img>
+                                        <img id="pie-chart-icon" class="icon" src="{% static 'images/pie-chart.svg' %}" alt="Pie Chart" title="Pie Chart" ></img>
+                                        <img id="box-chart-icon" class="icon" src="{% static 'images/box-chart.svg' %}" alt="Box Chart" title="Box Chart"></img>
+                                        <img id="area-chart-icon" class="icon" src="{% static 'images/area-chart.svg' %}" alt="Area Chart" title="Area Chart" ></img>
+                                        <img id="radar-chart-icon" class="icon" src="{% static 'images/radar-chart.svg' %}" alt="Radar Chart" title="Radar Chart"></img>
+                                        <img id="scatter-chart-icon" class="icon" src="{% static 'images/scatter-chart.svg' %}" alt="Scatter Chart" title="Scatter Chart"></img>
+                                        <img id="statistic-chart-icon" class="icon" src="{% static 'images/statistic-chart.svg' %}" alt="Statistic Chart" title="Statistic Chart"></img>
+                                        <img id="timeline-chart-icon" class="icon" src="{% static 'images/timeline-chart.svg' %}" alt="Timeline Chart" title="Timeline Chart" ></img>
+                                        <img id="word-cloud-chart-icon" class="icon" src="{% static 'images/word-cloud-chart.svg' %}" alt="Word Cloud" title="Word Cloud"></img>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+         </div>
+          
+          
+    </div>
+    
+    <!--  Message (Success / Error)  -->
+    <div id="message-container" class="message-container "></div>
+    <!--  Blur the page during spinning  -->
+    <div id="overlay" class="overlay hidden"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
