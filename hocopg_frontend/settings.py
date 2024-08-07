@@ -80,7 +80,7 @@ DATABASES = {
         'USER': 'USER_NAME',  # YOUR DB USER NAME
         'PASSWORD': 'YOUR_PASSWORD',  # YOUR DB PASSWORD
         'HOST': 'DB_IP',  # HOST IP
-        'PORT': 'DB_PORT', # YOUR DB POST
+        'PORT': 'DB_PORT', # YOUR DB PORT
     }
 }
 
